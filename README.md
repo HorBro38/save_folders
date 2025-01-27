@@ -5,7 +5,7 @@ This library allows you to add in save folders that generate based off a random 
 
 <img width="665" alt="load_folders" src="https://github.com/user-attachments/assets/489657e3-8fbf-4a4b-85f2-ba6554f8f558" />
 
-You can modify the default by adjusting the `SF_RN_NAME` variable at the top of the rpy file.  This could be the player's name, a customized character name or something they themselves choose.  If more than one folder has the same name, the second (and third…) copies of that folder will append the time of the first save in the folder to the title to make it more clear of the details of that folder.
+You can modify the default by adjusting the `SF_RN_NAME` variable at the top of the rpy file.  This could be the player's name, a customized character name or something they themselves choose.  If more than one folder has the same name, the second (and third…) copies of that folder will append the time of the first save in the folder to the title to make it more clear of the details of that folder.  Saves from before using the library will be marked as `Unassigned` (those that don't have a seed value).
 
 Once in the save screen, it looks similar to the existing one except the folder name is at the top.  Just like the default page text, this can be editted by clicking on it - doing so will also update the folder name on the load page:
 
