@@ -1,4 +1,4 @@
-# Media Skip for Ren'py
+# Save Folders for Ren'py
 by HB38
 
 This library allows you to add in save folders that generate based off a random seed the player is assigned on game creation, allowing you them to have a folder like structure that allows them to seperate their saves by play through attempt.  When going to the load screen, you will see a list of available play throughs/seeds/characters/etc:
