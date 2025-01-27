@@ -45,7 +45,7 @@ init python:
                 json = c.get_json()
                 if json is not None:
                     RN_SEED = json.get("SF_RN_SEED", "")
-                    RN_NAME = json.get("SF_RN_NAME", "Null")
+                    RN_NAME = json.get("SF_RN_NAME", "Unassigned")
                     RN_TIME = json.get("_ctime", "January 1, 1970")
                 else:
                     RN_SEED = ""
@@ -92,9 +92,6 @@ screen load():
                 for i in SF_GET_JSON():
                     textbutton SF_GET_NAME(i[1])[1] action ShowMenu("load_post", SF_GET_NAME(i[1]))
 
-                #### You can remove this if you've never published your game as you will never have saves that don't have a SF_RN_SEED (saves made before using this library)
-                textbutton "Unassigned" action ShowMenu("load_post", "")
-
 #### This acts as the default load screen, just post seed selection
 
 screen load_post(x):
@@ -116,7 +113,11 @@ screen save():
 screen file_slots(title,x):
 
     default page_name_value = FilePageNameInputValue(pattern=_("Page {}"), auto=_("Automatic saves"), quick=_("Quick saves"))
-    $ SF_NAME = DictInputValue(x,1,default=False)
+    python:
+        if x:
+            SF_NAME = DictInputValue(x,1,default=False)
+        else:
+            SF_NAME = None
 
     use game_menu(title):
 
@@ -132,15 +133,16 @@ screen file_slots(title,x):
 
                 ## The Folder name.  Click on this will allow a user to rename the folder if they wish
 
-                button:
-                   xalign 0.5
-                   key_events True
-                   action SF_NAME.Toggle()
-
-                   input:
-                       style "page_label_text"
-                       value SF_NAME
+                if SF_NAME:
+                    button:
+                       xalign 0.5
+                       key_events True
                        action SF_NAME.Toggle()
+
+                       input:
+                           style "page_label_text"
+                           value SF_NAME
+                           action SF_NAME.Toggle()
 
                 ## The page name, which can be edited by clicking on a button.
                 button:
@@ -166,19 +168,19 @@ screen file_slots(title,x):
                     $ slot = i + 1
 
                     button:
-                        action FileAction(str(slot)+x[0])
+                        action FileAction(str(slot)+(x[0] if x else ""))
 
                         has vbox
 
-                        add FileScreenshot(str(slot)+x[0]) xalign 0.5
+                        add FileScreenshot(str(slot)+(x[0] if x else "")) xalign 0.5
 
-                        text FileTime(str(slot)+x[0], format=_("{#file_time}%A, %B %d %Y, %H:%M"), empty=_("empty slot")):
+                        text FileTime(str(slot)+(x[0] if x else ""), format=_("{#file_time}%A, %B %d %Y, %H:%M"), empty=_("empty slot")):
                             style "slot_time_text"
 
-                        text FileSaveName(str(slot)+x[0]):
+                        text FileSaveName(str(slot)+(x[0] if x else "")):
                             style "slot_name_text"
 
-                        key "save_delete" action FileDelete(str(slot)+x[0])
+                        key "save_delete" action FileDelete(str(slot)+(x[0] if x else ""))
 
             ## Buttons to access other pages.
             vbox:
